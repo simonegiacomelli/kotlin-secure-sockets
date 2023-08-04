@@ -1,0 +1,12 @@
+# Generate a private key
+openssl genpkey -algorithm RSA -out private_key.pem
+
+# Extract the public key
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+
+# Create a self-signed certificate using the private key
+openssl req -new -x509 -key private_key.pem -out server.crt
+
+# Convert the certificate to DER format
+openssl x509 -in server.crt -outform der -out server.der
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
